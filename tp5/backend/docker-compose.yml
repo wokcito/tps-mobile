@@ -1,0 +1,11 @@
+services:
+  qos:
+    build: .
+    ports:
+      - "3000:3000"
+      - "9000:9000"
+    environment:
+      PORT: 3000
+      TCP_PORT: 9000
+      MAX_BYTES: 16777216
+    restart: unless-stopped
