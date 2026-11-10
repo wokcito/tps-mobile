@@ -1,0 +1,10 @@
+import React,{useState} from 'react';
+import { Text } from 'react-native';
+import { useTracker } from '../src/state';
+import { position,positionError } from '../src/orbital';
+import { Screen,Card,Button,SatelliteStatus,styles,formatTime } from '../src/ui';
+type Result={source:string;time:number;error:number;age:number};
+export default function Validation(){const t=useTracker(),[result,setResult]=useState<Result>(),[error,setError]=useState(''),[loading,setLoading]=useState(false);
+ async function validate(source:string){if(!t.orbit||!t.orbital)return;setLoading(true);setError('');setResult(undefined);try{const reference=await t.service.validate(t.norad,source);const local=position(t.orbit,reference.time,t.observer);setResult({source:reference.source,time:reference.time,error:positionError(local,reference),age:(reference.time-t.orbital.value.epoch)/3600000});}catch(e){setError(String(e));}finally{setLoading(false);}}
+ return <Screen title="Validación independiente"><SatelliteStatus/><Text style={styles.subtitle}>Se propaga a la hora exacta reportada por la API (no a la hora de recepción). Error combinado: distancia de gran círculo en superficie y diferencia de altitud, en km.</Text><Button title="Comparar con Where the ISS at?" disabled={loading||!t.orbit||t.norad!==25544} onPress={()=>void validate('Where the ISS at?')}/><Button title="Comparar con N2YO (proxy)" disabled={loading||!t.orbit||!t.settings.proxyUrl} onPress={()=>void validate('N2YO')}/>{!t.settings.proxyUrl&&<Text style={styles.warning}>N2YO pendiente: configurá el proxy con la API key únicamente en el servidor.</Text>}{t.norad!==25544&&<Text style={styles.subtitle}>Where the ISS at? solo permite validar la ISS (25544).</Text>}{!!error&&<Text style={styles.error}>{error}</Text>}{result&&<Card><Text style={styles.text}>Error 3D combinado: {result.error.toFixed(3)} km</Text><Text style={styles.subtitle}>{result.source} · {formatTime(result.time)}</Text><Text style={styles.subtitle}>Antigüedad orbital al comparar: {result.age.toFixed(2)} h</Text></Card>}</Screen>;
+}

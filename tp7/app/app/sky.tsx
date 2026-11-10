@@ -1,0 +1,14 @@
+import React,{useMemo,useState} from 'react';
+import { Text,View } from 'react-native';
+import Svg,{Circle,Line,Polyline,Text as SvgText} from 'react-native-svg';
+import { useTracker } from '../src/state';
+import { position } from '../src/orbital';
+import { Screen,Card,Button,Busy,styles,colors,formatTime } from '../src/ui';
+const polar=(azimuth:number,elevation:number)=>{const r=(90-Math.max(0,elevation))/90*130,a=azimuth*Math.PI/180;return {x:160+r*Math.sin(a),y:160-r*Math.cos(a)};};
+export default function Sky(){const t=useTracker(),[index,setIndex]=useState(0),passes=t.passes.filter(p=>p.los>t.now),pass=passes[Math.min(index,passes.length-1)];
+ const path=useMemo(()=>{if(!pass||!t.orbit)return '';const points=[];for(let time=pass.aos;time<=pass.los;time+=5000){const p=position(t.orbit,time,t.observer),point=polar(p.azimuth,p.elevation);points.push(`${point.x},${point.y}`);}const end=position(t.orbit,pass.los,t.observer),point=polar(end.azimuth,end.elevation);points.push(`${point.x},${point.y}`);return points.join(' ');},[pass,t.orbit,t.observer]);
+ const current=t.current&&t.current.elevation>=0?polar(t.current.azimuth,t.current.elevation):undefined;
+ return <Screen title="Cielo · gráfico polar"><Text style={styles.subtitle}>Norte arriba, Este a la derecha. Centro = cénit (90°); borde = horizonte (0°).</Text>{t.predicting&&<Busy/>}{!pass&&<Text style={styles.warning}>Sin pase completo disponible. Revisá el horizonte y el umbral en Ajustes.</Text>}{pass&&<Card><Text style={styles.text}>AOS {formatTime(pass.aos)}</Text><Text style={styles.subtitle}>Máxima {pass.maxElevation.toFixed(1)}° · TCA {formatTime(pass.tca)}</Text><View style={styles.row}><Button title="Pase anterior" disabled={index===0} onPress={()=>setIndex(i=>i-1)}/><Button title="Pase siguiente" disabled={index>=passes.length-1} onPress={()=>setIndex(i=>i+1)}/></View></Card>}
+ <Svg viewBox="0 0 320 320" width="100%" height={320} accessibilityLabel="Trayectoria polar del pase">{[0,30,60].map(e=><React.Fragment key={e}><Circle cx={160} cy={160} r={(90-e)/90*130} stroke="#58758e" fill="none"/><SvgText x={164} y={160-(90-e)/90*130+12} fill={colors.muted} fontSize={10}>{e}°</SvgText></React.Fragment>)}<Line x1={30} y1={160} x2={290} y2={160} stroke="#304961"/><Line x1={160} y1={30} x2={160} y2={290} stroke="#304961"/>{[['N',155,17],['E',300,165],['S',155,310],['O',6,165]].map(([label,x,y])=><SvgText key={label} x={x} y={y} fill={colors.text} fontSize={16}>{label}</SvgText>)}<Polyline points={path} stroke={colors.accent} strokeWidth={3} fill="none"/>{current&&<Circle cx={current.x} cy={current.y} r={6} fill={colors.warning}/>}<Circle cx={160} cy={160} r={2} fill={colors.text}/></Svg>
+ <Text style={styles.subtitle}>Cian: trayectoria del pase elegido. Dorado: posición actual, solo si está sobre el horizonte.</Text></Screen>;
+}

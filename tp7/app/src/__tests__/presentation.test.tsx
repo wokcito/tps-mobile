@@ -1,0 +1,22 @@
+import React from 'react';
+import { render,fireEvent,screen } from '@testing-library/react-native';
+import Catalog from '../../app/index';
+const mockNavigate=jest.fn();
+jest.mock('expo-router',()=>({router:{navigate:(path:string)=>mockNavigate(path)}}));
+const mockSetNorad=jest.fn();
+const mockService={catalog:jest.fn(async()=>({savedAt:0,stale:false,source:'fixture',value:[{norad:25544,name:'ISS (ZARYA)'},{norad:123456,name:'STARLINK-TEST'}]}))};
+jest.mock('../state',()=>({useTracker:()=>({service:mockService,setNorad:mockSetNorad})}));
+jest.mock('react-native-safe-area-context',()=>({SafeAreaView:require('react-native').View}));
+beforeEach(()=>jest.clearAllMocks());
+test('Spanish catalog: async name/NORAD search, selection and constellation filter',async()=>{
+ await render(<Catalog/>);
+ expect(await screen.findByText('ISS (ZARYA)')).toBeTruthy();
+ await fireEvent.changeText(screen.getByLabelText('Buscar satélites'),'25544');
+ expect(screen.queryByText('STARLINK-TEST')).toBeNull();
+ await fireEvent.press(screen.getByLabelText('Seleccionar ISS (ZARYA)'));
+ expect(mockSetNorad).toHaveBeenCalledWith(25544);expect(mockNavigate).toHaveBeenCalledWith('/map');
+ await fireEvent.press(screen.getByText('Starlink'));
+ expect(mockService.catalog).toHaveBeenLastCalledWith('starlink');
+ await fireEvent.changeText(screen.getByLabelText('Buscar satélites'),'no existe');
+ expect(screen.getByText('No hay satélites para esta búsqueda.')).toBeTruthy();
+});
