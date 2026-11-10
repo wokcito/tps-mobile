@@ -1,0 +1,1 @@
+{"name":"agropulse-worker","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node index.js","simulate":"node simulator.js","test":"jest","typecheck":"tsc --noEmit"},"dependencies":{"@supabase/supabase-js":"^2.119.0","kafkajs":"^2.2.4"},"devDependencies":{"typescript":"~6.0.3","jest":"^30.5.2","@types/node":"^22.0.0"}}
