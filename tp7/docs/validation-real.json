@@ -1,0 +1,115 @@
+{
+  "measuredAt": "2026-11-10T01:15:03.171Z",
+  "orbitalSource": "CelesTrak GP JSON",
+  "validationSource": "Where the ISS at?",
+  "n2yo": "PENDIENTE: requiere API key en backend",
+  "samples": [
+    {
+      "time": "2026-11-10T01:15:05.000Z",
+      "orbitalAgeHours": 14.079508055555555,
+      "errorKm": 9.511136072784362,
+      "computed": {
+        "latitude": 26.2806470734008,
+        "longitude": -106.84181526853217,
+        "altitude": 415.3405399207368,
+        "time": 1794273305000,
+        "azimuth": 297.14408994327573,
+        "elevation": -51.16735203053857,
+        "speed": 7.66807868837501
+      },
+      "reference": {
+        "name": "iss",
+        "id": 25544,
+        "latitude": 26.343698268243,
+        "longitude": -106.77733415083,
+        "altitude": 415.3396397511,
+        "velocity": 27605.019452193,
+        "visibility": "daylight",
+        "footprint": 4483.6772342153,
+        "timestamp": 1794273305,
+        "daynum": 2461354.5521412,
+        "solar_lat": -17.094271251605,
+        "solar_lon": 157.19326935031,
+        "units": "kilometers"
+      }
+    },
+    {
+      "time": "2026-11-10T01:15:07.000Z",
+      "orbitalAgeHours": 14.080063611111111,
+      "errorKm": 9.51098257206844,
+      "computed": {
+        "latitude": 26.374490174250013,
+        "longitude": -106.75042776661394,
+        "altitude": 415.3579915622531,
+        "time": 1794273307000,
+        "azimuth": 297.2288269141437,
+        "elevation": -51.11824791542489,
+        "speed": 7.668076096783711
+      },
+      "reference": {
+        "name": "iss",
+        "id": 25544,
+        "latitude": 26.437493655232,
+        "longitude": -106.68583852429,
+        "altitude": 415.35708915683,
+        "velocity": 27605.010200955,
+        "visibility": "daylight",
+        "footprint": 4483.7665815818,
+        "timestamp": 1794273307,
+        "daynum": 2461354.5521644,
+        "solar_lat": -17.094277771622,
+        "solar_lon": 157.18493643429,
+        "units": "kilometers"
+      }
+    },
+    {
+      "time": "2026-11-10T01:15:09.000Z",
+      "orbitalAgeHours": 14.080619166666667,
+      "errorKm": 9.510828917049958,
+      "computed": {
+        "latitude": 26.468260581616082,
+        "longitude": -106.65888136011858,
+        "altitude": 415.3755236534889,
+        "time": 1794273309000,
+        "azimuth": 297.3134750022193,
+        "elevation": -51.069119841132064,
+        "speed": 7.668073443920931
+      },
+      "reference": {
+        "name": "iss",
+        "id": 25544,
+        "latitude": 26.531216082717,
+        "longitude": -106.59418345605,
+        "altitude": 415.3746184891,
+        "velocity": 27605.000730407,
+        "visibility": "daylight",
+        "footprint": 4483.8563360211,
+        "timestamp": 1794273309,
+        "daynum": 2461354.5521875,
+        "solar_lat": -17.094284291506,
+        "solar_lon": 157.17660368589,
+        "units": "kilometers"
+      }
+    }
+  ],
+  "omm": {
+    "OBJECT_NAME": "ISS (ZARYA)",
+    "OBJECT_ID": "1998-067A",
+    "EPOCH": "2026-11-09T11:10:18.771456",
+    "MEAN_MOTION": 15.49275323,
+    "ECCENTRICITY": 0.00072858,
+    "INCLINATION": 51.6321,
+    "RA_OF_ASC_NODE": 301.1765,
+    "ARG_OF_PERICENTER": 6.3021,
+    "MEAN_ANOMALY": 353.8058,
+    "EPHEMERIS_TYPE": 0,
+    "CLASSIFICATION_TYPE": "U",
+    "NORAD_CAT_ID": 25544,
+    "ELEMENT_SET_NO": 999,
+    "REV_AT_EPOCH": 59427,
+    "BSTAR": 0.00016254709,
+    "MEAN_MOTION_DOT": 0.00008605,
+    "MEAN_MOTION_DDOT": 0
+  },
+  "status": "MEDIDO"
+}
