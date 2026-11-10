@@ -1,0 +1,11 @@
+import React,{useState} from 'react';
+import {router,useLocalSearchParams} from 'expo-router';
+import {useStore} from '../src/store';
+import {parsePolygon} from '../src/domain';
+import {supabase,errorMessage} from '../src/supabase';
+import {Page,Title,Body,Field,Button,ErrorText} from '../src/ui';
+const example=JSON.stringify({type:'Polygon',coordinates:[[[-58.02,-31.41],[-58.014,-31.41],[-58.014,-31.404],[-58.02,-31.404],[-58.02,-31.41]]]});
+export default function EditPlot(){const {id}=useLocalSearchParams<{id?:string}>();const s=useStore();const plot=s.plots.find(p=>p.id===id);const [name,setName]=useState(plot?.name||''),[crop,setCrop]=useState(plot?.crop||''),[geometry,setGeometry]=useState(plot?JSON.stringify(plot.geom):example),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+ async function save(){setBusy(true);setError('');try{if(!s.canWrite||!s.organizationId)throw new Error('No tenés permiso de edición.');if(id&&!plot)throw new Error('Lote no disponible.');if(!name.trim())throw new Error('El nombre es obligatorio.');const values={name:name.trim(),crop:crop.trim()||null,geom:parsePolygon(geometry)};const result=id?await supabase.from('plots').update(values).eq('id',id).select('id'):await supabase.from('plots').insert({...values,organization_id:s.organizationId}).select('id');if(result.error)throw result.error;if(!result.data.length)throw new Error('No tenés permiso de edición.');await s.refresh();router.back();}catch(e){setError(errorMessage(e));}finally{setBusy(false);}}
+ return <Page><Title>{id?'Editar lote':'Crear lote'}</Title><Field label="Nombre del lote" value={name} onChangeText={setName}/><Field label="Cultivo" value={crop} onChangeText={setCrop}/><Body>Pegá un GeoJSON Polygon o Feature sin huecos. Coordenadas [longitud, latitud]. Se admite un dibujo de cuatro vértices pegado como Polygon (el cierre se agrega automáticamente). No detecta todos los polígonos autointersectados.</Body><Field label="GeoJSON" multiline value={geometry} onChangeText={setGeometry}/><ErrorText message={error}/><Button title="Guardar lote" busy={busy} disabled={!s.canWrite} onPress={()=>void save()}/><Body>Un lote nuevo queda sin datos hasta que un administrador cree su estación y válvula en Supabase.</Body></Page>;
+}

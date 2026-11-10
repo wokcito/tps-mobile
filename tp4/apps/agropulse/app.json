@@ -1,0 +1,1 @@
+{"expo":{"name":"AgroPulse","slug":"agropulse","scheme":"agropulse","plugins":["expo-router",["expo-location",{"locationWhenInUsePermission":"Permitir ubicación para saber si estás dentro del lote."}]],"ios":{"bundleIdentifier":"test.agropulse.demo"},"android":{"package":"test.agropulse.demo"}}}
