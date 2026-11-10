@@ -1,0 +1,14 @@
+node_modules/
+.expo/
+dist/
+build/
+.gradle/
+*.log
+.env
+!.env.example
+.DS_Store
+odd/
+.atl/
+Pods/
+*.apk
+*.aab
