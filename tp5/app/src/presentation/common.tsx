@@ -1,0 +1,7 @@
+import React,{PropsWithChildren} from 'react';
+import {ScrollView,StyleSheet,Text,TextInput,View} from 'react-native';
+export const styles=StyleSheet.create({page:{flex:1,backgroundColor:'#f2f6fa'},content:{padding:16,gap:12,paddingBottom:40},card:{backgroundColor:'#fff',padding:16,borderRadius:12,gap:8,borderWidth:1,borderColor:'#d3dfe8'},title:{fontSize:24,fontWeight:'700',color:'#123550'},subtitle:{fontSize:18,fontWeight:'600',color:'#123550'},text:{color:'#183347',fontSize:15},input:{borderWidth:1,borderColor:'#7890a0',borderRadius:8,padding:10,color:'#123550',backgroundColor:'#fff',minHeight:44},error:{color:'#a11b1b',fontSize:15},muted:{color:'#415d70',fontSize:14}});
+export function Page({children}:PropsWithChildren){return <ScrollView style={styles.page} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">{children}</ScrollView>;}
+export function Card({children}:PropsWithChildren){return <View style={styles.card}>{children}</View>;}
+export function Field({label,value,onChangeText,placeholder}:{label:string;value:string;onChangeText:(v:string)=>void;placeholder?:string}){return <View style={{gap:4}}><Text style={styles.text}>{label}</Text><TextInput accessibilityLabel={label} style={styles.input} value={value} onChangeText={onChangeText} placeholder={placeholder} placeholderTextColor="#60788a" autoCapitalize="none" autoCorrect={false}/></View>;}
+export const metric=(value:number|null|undefined,suffix:string)=>value==null?'No disponible':`${value.toFixed(2)} ${suffix}`;

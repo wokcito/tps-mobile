@@ -1,0 +1,32 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+react { autolinkLibrariesWithApp() }
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+    namespace "ar.edu.netqos"
+    defaultConfig {
+        applicationId "ar.edu.netqos"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        manifestPlaceholders = [MAPS_API_KEY: project.findProperty("MAPS_API_KEY") ?: ""]
+    }
+    // AGP creates the local debug keystore. No private signing material is shipped.
+    buildTypes {
+        debug { signingConfig signingConfigs.debug }
+        release {
+            // Unsigned release APK: supply personal signing configuration outside this repository.
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+}
+dependencies {
+    implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-android")
+}

@@ -1,0 +1,11 @@
+node_modules/
+android/.gradle/
+android/local.properties
+android/app/debug.keystore
+android/app/build/
+ios/Pods/
+ios/build/
+ios/.xcode.env.local
+*.xcuserstate
+xcuserdata/
+coverage/
